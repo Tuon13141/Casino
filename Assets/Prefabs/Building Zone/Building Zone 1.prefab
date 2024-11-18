@@ -229,10 +229,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8492066694520217916}
     m_Modifications:
+    - target: {fileID: 108113461184573707, guid: f023140f2745a6b4281f2e3382952299,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 108113461184573707, guid: f023140f2745a6b4281f2e3382952299,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2134913316951412744, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
       propertyPath: m_Name
       value: Update Icon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2134913316951412744, guid: f023140f2745a6b4281f2e3382952299,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}

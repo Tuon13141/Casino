@@ -6,23 +6,28 @@ public class BuildingObject : MonoBehaviour
 {
     public int ID = -1;
     public int level = 1;
+    public bool needStaffHelp = false;
+    public bool hadStaffHelp = false;
 
     [SerializeField] BuildingSO buildingSO;
-    List<Seat> seats = new List<Seat>();
+    public BuildingSO BuildingSO => buildingSO;
+    List<SeatInBuilding> seats = new List<SeatInBuilding>();
     public bool IsBuilded = false;
     public float moneyEarnedPerPassenger;
 
     [SerializeField] UpdateIcon updateIcon;
+    public UpdateIcon UpdateIcon => updateIcon;
     GameObject currentBuildingObject;
     [SerializeField] List<GameObject> destroyAfterBuildObjects = new List<GameObject>();
 
-    private void Start()
+    public void OnStart()
     {
         SetUp();
     }
 
     void SetUp()
     {
+        updateIcon.gameObject.SetActive(false);
         moneyEarnedPerPassenger = GetMoneyEarnedPerPassgenger();
         SetUpUpdateIcon();
         
@@ -34,6 +39,7 @@ public class BuildingObject : MonoBehaviour
             SpawnBuildingPref();
         }
 
+        CheckNeedStaffHelp();
         CheckUpdate();
     }
 
@@ -51,9 +57,14 @@ public class BuildingObject : MonoBehaviour
             Destroy(go);
         }
 
-        Seat[] seats = currentBuildingObject.GetComponentsInChildren<Seat>();
+        SeatInBuilding[] seats = currentBuildingObject.GetComponentsInChildren<SeatInBuilding>();
         this.seats.Clear();
         this.seats.AddRange(seats);
+
+        foreach (SeatInBuilding seat in seats)
+        {
+            seat.SetUp(this);
+        }
     }
     public void Build()
     {
@@ -62,11 +73,11 @@ public class BuildingObject : MonoBehaviour
         GameManager.Instance.AddBuildedBuilding(buildingSO.buildCost, ID);
     }
 
-    public Seat GetAvailableSeatForPassenger()
+    public SeatInBuilding GetAvailableSeatForPassenger()
     {
-        foreach(Seat seat in this.seats)
+        foreach(SeatInBuilding seat in this.seats)
         {
-            if(seat.isOpen && !seat.isUsed && seat.SeatType == SeatType.Passenger)
+            if(seat.isOpen && !seat.isSeatedIn && seat.SeatType == SeatType.Passenger)
             {
                 return seat;
             }
@@ -74,6 +85,19 @@ public class BuildingObject : MonoBehaviour
         return null;
     }
 
+    public SeatInBuilding GetAvailableSeatForStaff()
+    {
+        foreach (SeatInBuilding seat in this.seats)
+        {
+            if (seat.isOpen && !seat.isSeatedIn && seat.SeatType == SeatType.Staff)
+            {
+                return seat;
+            }
+        }
+        return null;
+    }
+
+ 
     #region GetStat
     public float GetMoneyEarnedPerPassgenger()
     {
@@ -131,6 +155,30 @@ public class BuildingObject : MonoBehaviour
             }
             
         }
+    }
+    public void SetHadStaffHelp(bool b)
+    {
+        hadStaffHelp = b;
+    }
+    public void CheckRemainSeatPassengerToFreeStaff()
+    {
+        foreach (SeatInBuilding seat in seats)
+        {
+            if(seat.isOpen && seat.SeatType == SeatType.Passenger) return;
+        }
+
+        foreach(SeatInBuilding seat in seats)
+        {
+            if (seat.isOpen && seat.SeatType == SeatType.Staff)
+            {
+                StaffAgent staffAgent = (StaffAgent)seat.Agent;
+                staffAgent.ChangeState(StaffState.Free);
+            }
+        }
+    }
+    public void CheckNeedStaffHelp()
+    {
+        if (buildingSO.needStaffHelp) needStaffHelp = true;
     }
     #endregion
 }

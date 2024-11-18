@@ -18,7 +18,10 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         Game.Launch();
         UserData = Game.Data.Load<UserData>();
-        UserData.Init();
+        if (UserData.Init())
+        {
+            BuildingManager.Instance.NeedTutorial = true;
+        }
         //UserData.coin = 0;
     }
    
@@ -33,45 +36,12 @@ public class GameManager : Singleton<GameManager>
     public void ChangeState(GameStates newState)
     {
         if (newState == _state) return;
-        ExitCurrentState();
+ 
         _state = newState;
         EnterNewState();
     }
 
     private void EnterNewState()
-    {
-
-        switch (_state)
-        {
-            case GameStates.Tutorial:
-               
-                break;
-            case GameStates.Home:
-                break;
-            case GameStates.Start:
-         
-                break;
-            case GameStates.Play:
-              
-                break;
-            case GameStates.Retry:
-
-                break;
-            case GameStates.Win:
-            
-                break;
-            case GameStates.Lose:
-
-                break;
-            case GameStates.NextLevel:
-       
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void ExitCurrentState()
     {
         switch (_state)
         {

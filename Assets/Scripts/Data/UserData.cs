@@ -17,17 +17,19 @@ namespace Data
         public List<BuildedBuilding> buildedBuildingList = new List<BuildedBuilding>();   
         public Dictionary<int, int> buildedBuildingDict = new Dictionary<int, int>();
 
-        public void Init()
+        public bool Init()
         {
             if (alreadyLoad)
             {
                 ConvertListToDictionary();
-                return;
+                return false;
             }
             currentExp = 0;
             nextExp = 10;
             level = 1;
             alreadyLoad = true;
+
+            return true;
         }
 
         public void AddBuildedBuilding(int id, int level)

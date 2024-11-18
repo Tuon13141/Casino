@@ -402,6 +402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Update Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 2134913316951412744, guid: f023140f2745a6b4281f2e3382952299,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
       propertyPath: m_LocalPosition.x

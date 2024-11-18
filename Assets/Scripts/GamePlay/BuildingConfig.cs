@@ -14,6 +14,7 @@ public class BuildingSO : ScriptableObject
     public float baseMoneyEarnedIncreasePercentPerLevel = 10;
     public float baseMoneyUpdateIncreasePercentPerLevel = 100;
     public bool needStaffHelp = false;
+    public float serveTime = 2f;
 }
 
 public enum BuildingType

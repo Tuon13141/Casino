@@ -1,33 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpdateIcon : MonoBehaviour
+public class VFXAnimationManager : Singleton<VFXAnimationManager>
 {
-    BuildingObject buildingObject;
-
-    public void SetUp(BuildingObject buildingObject)
+    public void PlayPulseEffect(GameObject target, Vector3 minScale, Vector3 maxScale, float scaleSpeedTime, float time)
     {
-        this.buildingObject = buildingObject;
-    }
-    public void OnClick()
-    {
-        if (!buildingObject.IsBuilded)
-        {
-            GameUI.Instance.Get<UIOpenBuilding>().Show();
-            GameUI.Instance.Get<UIOpenBuilding>().SetUp(buildingObject.GetBuildCost(), buildingObject.GetMoneyEarnedPerPassgenger(), buildingObject.Build);
-        }
-        else
-        {
-
-        }   
-
-        Debug.Log(gameObject.name + " was clicked!");
-    }
-
-    public void PlayPulseEffect(Vector3 minScale, Vector3 maxScale, float scaleSpeedTime, float time)
-    {
-        GameObject target = this.gameObject;
         if (target == null)
         {
             Debug.LogError("Target GameObject is null.");
@@ -52,9 +30,10 @@ public class UpdateIcon : MonoBehaviour
             yield return ScaleOverTime(targetTransform, minScale, maxScale, scaleSpeedTime);
             yield return ScaleOverTime(targetTransform, maxScale, minScale, scaleSpeedTime);
 
-            elapsedTime += scaleSpeedTime * 2f;
+            elapsedTime += scaleSpeedTime * 2f; 
         }
 
+        // Kết thúc hiệu ứng, trả về minScale
         targetTransform.localScale = minScale;
     }
 
@@ -69,6 +48,7 @@ public class UpdateIcon : MonoBehaviour
             yield return null;
         }
 
+        // Đảm bảo scale chính xác tại thời điểm kết thúc
         targetTransform.localScale = endScale;
     }
 }
