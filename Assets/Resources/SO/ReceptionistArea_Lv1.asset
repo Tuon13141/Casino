@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9600e945b175fb418674281f276c5b6, type: 3}
+  m_Name: ReceptionistArea_Lv1
+  m_EditorClassIdentifier: 
+  buildingType: 0
+  buildingPref: {fileID: 8277276206488802562, guid: 7f8da63e1e82e104dbe250f25d8701fa,
+    type: 3}
+  buildCost: 0
+  baseMoneyEarned: 5
+  baseUpdateCost: 15
+  baseMoneyEarnedIncreasePercentPerLevel: 10
+  baseMoneyUpdateIncreasePercentPerLevel: 100
