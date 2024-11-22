@@ -46,8 +46,10 @@ public class StaffManager : Singleton<StaffManager>
             {
                 case StaffType.AllPosition:
                     BuildingObject buildingObject = BuildingManager.Instance.GetNeedStaffHelpBuilding();
+                   
                     if (buildingObject == null) break;
                     agent.GetTask(buildingObject);
+                 
                     break;
             }
         }

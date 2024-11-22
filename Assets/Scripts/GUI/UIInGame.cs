@@ -32,7 +32,7 @@ public class UIInGame : UIElement
     }
     public void SetCoinText(float money)
     {
-        moneyText.text = money.ToString();
+        moneyText.text = money.ToString("N0");
 
         PlayScaleAnimation(moneyObject);
     }

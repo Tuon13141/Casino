@@ -65,7 +65,7 @@ public class StaffAgent : Agent
         if(hadReachTarget && seat != null)
         {
             //Debug.Log("Agent has arrived at the destination!");
-            OnDestinationReached();
+            //OnDestinationReached();
             Game.Update.RemoveTask(OnStaffReachedSeat);
         }    
           
@@ -84,7 +84,10 @@ public class StaffAgent : Agent
     protected override void OnDestinationReached()
     {
         base.OnDestinationReached();
-        seat.SetHadStaffHelp(true);
+        if (seat != null)
+        {
+            seat.SetHadStaffHelp(true);
+        }
     }
 
     public void SpeedUpTemporary(float time, float index)

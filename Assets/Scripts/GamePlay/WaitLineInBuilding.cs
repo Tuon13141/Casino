@@ -91,6 +91,7 @@ public class WaitLineInBuilding : MonoBehaviour
     
     public bool HadPassenger()
     {
+        if (!seat.isOpen) return true; 
         if(passengerAgents.Count == 0) return false;
         return true;
     }

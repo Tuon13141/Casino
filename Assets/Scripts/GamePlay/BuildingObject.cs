@@ -99,6 +99,8 @@ public class BuildingObject : MonoBehaviour
 
         GameManager.Instance.UpdateBuilding(GetNextUpdateCost(), ID);
         level++;
+
+        GameUI.Instance.Get<UIUpdateBuilding>().SetUp(GetNextUpdateCost(), GetNextMoneyEarnedPerPassgenger(), UpdateBuilding, level);
     }
 
     public bool GetAvailableSeatForPassenger(PassengerAgent passengerAgent)
@@ -219,6 +221,35 @@ public class BuildingObject : MonoBehaviour
             }
             
         }
+    }
+    public void CheckRemainSeatPassengerToFreeStaff()
+    {
+        foreach (SeatInBuilding seat in seats)
+        {
+            if (seat.SeatType == SeatType.Staff)
+            {
+                if (!seat.CheckStillHavePassengerInWait())
+                {
+                    //Debug.Log(gameObject.name);
+                    seat.Agent.OnFinishTask();
+                }
+                
+            }
+        }
+       
+    }
+
+    public bool CheckNeedStaffHelp()
+    {
+        foreach (SeatInBuilding seat in seats)
+        {
+            if(seat.SeatType == SeatType.Passenger && seat.WaitLineInBuilding.HadPassenger())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void CheckUnlockLevel()

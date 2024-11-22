@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 123268865083946477}
   - component: {fileID: 8821183664174759523}
   - component: {fileID: 9188955990419437065}
-  - component: {fileID: 7094234431193861355}
   - component: {fileID: 8464420024341923716}
   m_Layer: 0
   m_Name: StaffSeat
@@ -50,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2589653691721727}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -85,27 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7094234431193861355
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2589653691721727}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8464420024341923716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +107,8 @@ MonoBehaviour:
   - {fileID: 5873490328293745787}
   - {fileID: 2024587395854746787}
   - {fileID: 8924660129230783006}
-  agentAngle: {x: 0, y: 0, z: 0}
+  agentAngle: {x: 0, y: 90, z: 0}
+  progressUI: {fileID: 0}
 --- !u!1 &904621172478297494
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +120,6 @@ GameObject:
   - component: {fileID: 985981471918121623}
   - component: {fileID: 6792850677178794648}
   - component: {fileID: 1373860450318182755}
-  - component: {fileID: 464656091885604692}
   - component: {fileID: 2024587395854746787}
   m_Layer: 3
   m_Name: Seat
@@ -180,7 +158,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904621172478297494}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -215,27 +193,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &464656091885604692
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904621172478297494}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2024587395854746787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +213,8 @@ MonoBehaviour:
   Agent: {fileID: 0}
   HelpedSeats: []
   agentAngle: {x: 0, y: 0, z: 0}
+  progressUI: {fileID: 3385470504947367335, guid: bc9dc9182eaa2744f93c81e13fc5352f,
+    type: 3}
 --- !u!1 &1886647832196040750
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +226,6 @@ GameObject:
   - component: {fileID: 1746729691555384810}
   - component: {fileID: 3515544629420922937}
   - component: {fileID: 2983956202391247489}
-  - component: {fileID: 4694884024429361000}
   - component: {fileID: 913994935052788450}
   m_Layer: 3
   m_Name: Wait
@@ -306,7 +264,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1886647832196040750}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -341,27 +299,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4694884024429361000
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1886647832196040750}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &913994935052788450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +394,6 @@ GameObject:
   - component: {fileID: 112632023592661385}
   - component: {fileID: 2727698959715371190}
   - component: {fileID: 8946630440105371726}
-  - component: {fileID: 1718628827697364389}
   - component: {fileID: 196968216203015315}
   m_Layer: 3
   m_Name: Wait
@@ -496,7 +432,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4355739920650812784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -531,27 +467,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1718628827697364389
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4355739920650812784}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &196968216203015315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,7 +572,6 @@ GameObject:
   - component: {fileID: 3254788828274152941}
   - component: {fileID: 4874202861309561976}
   - component: {fileID: 646790351448239914}
-  - component: {fileID: 3483448056674981043}
   - component: {fileID: 4526839487736569314}
   m_Layer: 3
   m_Name: Wait
@@ -696,7 +610,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5488468074014999812}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -731,27 +645,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3483448056674981043
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488468074014999812}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4526839487736569314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,7 +671,6 @@ GameObject:
   - component: {fileID: 7252510099577458413}
   - component: {fileID: 7486720597795244514}
   - component: {fileID: 8133924110658232373}
-  - component: {fileID: 5445402452950586535}
   - component: {fileID: 8924660129230783006}
   m_Layer: 3
   m_Name: Seat
@@ -817,7 +709,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7449790945619796890}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -852,27 +744,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5445402452950586535
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7449790945619796890}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8924660129230783006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,6 +764,8 @@ MonoBehaviour:
   Agent: {fileID: 0}
   HelpedSeats: []
   agentAngle: {x: 0, y: 0, z: 0}
+  progressUI: {fileID: 3385470504947367335, guid: bc9dc9182eaa2744f93c81e13fc5352f,
+    type: 3}
 --- !u!1 &7703676253551878528
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,7 +777,6 @@ GameObject:
   - component: {fileID: 5628138843283722000}
   - component: {fileID: 6476554669424487669}
   - component: {fileID: 4624753629242004086}
-  - component: {fileID: 8059241920478851801}
   - component: {fileID: 8918261433705807597}
   m_Layer: 3
   m_Name: Wait
@@ -943,7 +815,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7703676253551878528}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -978,27 +850,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8059241920478851801
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7703676253551878528}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8918261433705807597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1025,7 +876,6 @@ GameObject:
   - component: {fileID: 3126917473092829335}
   - component: {fileID: 8760849955197809594}
   - component: {fileID: 414105036305676238}
-  - component: {fileID: 8911719849014028048}
   - component: {fileID: 6179174898753318050}
   m_Layer: 3
   m_Name: Seat
@@ -1064,7 +914,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7709962755489592004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1099,27 +949,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8911719849014028048
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7709962755489592004}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6179174898753318050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,6 +969,8 @@ MonoBehaviour:
   Agent: {fileID: 0}
   HelpedSeats: []
   agentAngle: {x: 0, y: 180, z: 0}
+  progressUI: {fileID: 3385470504947367335, guid: bc9dc9182eaa2744f93c81e13fc5352f,
+    type: 3}
 --- !u!1 &8689658335362492976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +982,6 @@ GameObject:
   - component: {fileID: 2362730820971437616}
   - component: {fileID: 1584849368608384575}
   - component: {fileID: 7351269364262033767}
-  - component: {fileID: 2356309527966406527}
   - component: {fileID: 5873490328293745787}
   m_Layer: 3
   m_Name: Seat
@@ -1190,7 +1020,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8689658335362492976}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1225,27 +1055,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2356309527966406527
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8689658335362492976}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5873490328293745787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1075,8 @@ MonoBehaviour:
   Agent: {fileID: 0}
   HelpedSeats: []
   agentAngle: {x: 0, y: 180, z: 0}
+  progressUI: {fileID: 3385470504947367335, guid: bc9dc9182eaa2744f93c81e13fc5352f,
+    type: 3}
 --- !u!1001 &494965229446653032
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,6 +16,9 @@ public class SeatInBuilding : MonoBehaviour
 
     private float serveTimer = 0f;
 
+    [SerializeField] ProgressBox progressUI;
+    ProgressBox currentProgressUI;
+
     public void SetUp(BuildingObject buildingObject)
     {
         this.buildingObject = buildingObject;
@@ -72,14 +75,27 @@ public class SeatInBuilding : MonoBehaviour
     {
         isSeatedIn = true;
         serveTimer = buildingObject.BuildingSO.serveTime;
+        if(currentProgressUI == null)
+        {
+            currentProgressUI = Instantiate(progressUI);
+
+            currentProgressUI.SetUp(transform);
+            BuildingManager.Instance.AddToCameraEqualScaleObject(currentProgressUI.gameObject);
+            currentProgressUI.SetActive(false);
+        }
+        else
+        {
+            currentProgressUI.SetProgress(0, 1);
+        }
 
         Game.Update.AddTask(OnUpdate);
     }
 
     void OnUpdate()
     {
+      
         if (!buildingObject.BuildingSO.needStaffHelp || hadStaffHelp && isSeatedIn)
-        {
+        {   
             HandlePassengerServing();
         }
     }
@@ -88,6 +104,9 @@ public class SeatInBuilding : MonoBehaviour
     {
         if (serveTimer > 0)
         {
+            currentProgressUI.SetActive(true);
+
+            currentProgressUI.SetProgress(serveTimer, buildingObject.BuildingSO.serveTime);
             serveTimer -= Time.deltaTime;
             return;
         }
@@ -110,31 +129,27 @@ public class SeatInBuilding : MonoBehaviour
         Agent.OnFinishTask();
         isSeatedIn = false;
         Agent = null;
+        currentProgressUI.SetActive(false);
 
         // Reset the seat and wait line
         isOpen = true;
 
-        foreach(SeatInBuilding seat in HelpedSeats)
-        {
-            seat.WaitLineInBuilding.CaculateWaitPositions();
-        }
-       
-        CheckRemainSeatPassengerToFreeStaff();
+        WaitLineInBuilding.CaculateWaitPositions();
+
+        buildingObject.CheckRemainSeatPassengerToFreeStaff();
 
         Game.Update.RemoveTask(OnUpdate);
     }
-
-    public void CheckRemainSeatPassengerToFreeStaff()
+    
+    public bool CheckStillHavePassengerInWait()
     {
-        foreach (SeatInBuilding seat in HelpedSeats)
+        if(Agent ==  null) return true;
+        foreach(SeatInBuilding seat in HelpedSeats)
         {
-            if (seat.WaitLineInBuilding.HadPassenger())
-            {
-                return;
-            }
+            if(seat.WaitLineInBuilding.HadPassenger()) return true;
         }
-        
-        Agent.OnFinishTask();
+
+        return false;
     }
 }
 

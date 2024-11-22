@@ -83,7 +83,7 @@ public class GameManager : Singleton<GameManager>
     public void UpdateBuilding(float cost, int id)
     {
         if (CheckBuildedBuiling(id) == -1) return;
-        UserData.money -= cost;
+        AddMoney(-cost);
         UserData.UpdateBuildedBuilding(id);
         
         BakeNavMesh();
@@ -116,6 +116,7 @@ public class GameManager : Singleton<GameManager>
         UserData.money += money;
         BuildingManager.Instance.CheckBuildingUpdate();
         GameUI.Instance.Get<UIInGame>().SetCoinText(UserData.money);
+        GameUI.Instance.Get<UIUpdateBuilding>().CheckMoneyToUpdate();
     }
 
 

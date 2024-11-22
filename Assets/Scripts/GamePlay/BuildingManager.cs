@@ -9,7 +9,7 @@ public class BuildingManager : Singleton<BuildingManager>
 
     [SerializeField] List<BuildingObject> tutorialBuildingObjects = new List<BuildingObject>();
 
-    [HideInInspector] public bool FirstLoad = true;
+    public bool FirstLoad { get; set; } = true;
     public bool NeedTutorial = false;
     [HideInInspector] public bool NeedTutorialPointer = false;
     [SerializeField] GameObject pointer;
@@ -110,14 +110,15 @@ public class BuildingManager : Singleton<BuildingManager>
         {
             foreach (BuildingObject buildingObject in buildingObjects)
             {
-                if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded)
+                Debug.Log(buildingObject.CheckNeedStaffHelp());
+                if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded && buildingObject.CheckNeedStaffHelp())
                 {
                     return buildingObject;
                 }
             }
             foreach (BuildingObject buildingObject in receptionistAreas)
             {
-                if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded)
+                if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded && buildingObject.CheckNeedStaffHelp())
                 {
                     return buildingObject;
                 }
