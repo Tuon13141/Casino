@@ -11,14 +11,22 @@ public class BuildingManager : Singleton<BuildingManager>
     
     public bool NeedTutorial = false;
 
+    [SerializeField] List<BuildingObject> receptionistAreas = new List<BuildingObject>();
     private void Start()
     {
+        NeedTutorial = GameManager.Instance.UserData.needTutorial;
         if (!NeedTutorial)
         {
             foreach (BuildingObject buildingObject in buildingObjects)
             {
                 buildingObject.OnStart();
             }
+            foreach (BuildingObject buildingObject in receptionistAreas)
+            {
+                buildingObject.OnStart();
+            }
+
+            PassengerManager.Instance.canSpawnPassenger = true;
         }
         else
         {
@@ -34,6 +42,9 @@ public class BuildingManager : Singleton<BuildingManager>
             buildingObject.UpdateIcon.PlayPulseEffect(Vector3.one, new Vector3(1.5f , 1.5f , 1.5f), .5f, Mathf.Infinity);
             yield return new WaitUntil(() => buildingObject.IsBuilded);
         }
+
+        PassengerManager.Instance.canSpawnPassenger = true;
+        GameManager.Instance.UserData.needTutorial = false ;
     }
     
     public void AddBuildingObject(BuildingObject buildingObject)
@@ -47,13 +58,24 @@ public class BuildingManager : Singleton<BuildingManager>
         {
             buildingObject.CheckUpdate();
         }
+        foreach (BuildingObject buildingObject in receptionistAreas)
+        {
+            buildingObject.CheckUpdate();
+        }
     }
 
     public BuildingObject GetNeedStaffHelpBuilding()
     {
-        foreach(BuildingObject buildingObject in buildingObjects)
+        foreach (BuildingObject buildingObject in receptionistAreas)
         {
-            if(buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null)
+            if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded)
+            {
+                return buildingObject;
+            }
+        }
+        foreach (BuildingObject buildingObject in buildingObjects)
+        {
+            if(buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded)
             {
                 return buildingObject;
             }
@@ -66,7 +88,7 @@ public class BuildingManager : Singleton<BuildingManager>
     {
         foreach (BuildingObject buildingObject in buildingObjects)
         {
-            if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.BuildingSO.buildingType == buildingType)
+            if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.BuildingSO.buildingType == buildingType && buildingObject.IsBuilded)
             {
                 return buildingObject;
             }
@@ -75,18 +97,29 @@ public class BuildingManager : Singleton<BuildingManager>
         return null;
     }
 
-    public BuildingObject GetRandomCanServeBuilding()
+    public BuildingObject GetRandomBuildingForPassenger()
     {
         List<BuildingObject> availableBuilding = new List<BuildingObject>();
         foreach (BuildingObject buildingObject in buildingObjects)
         {
-            if (buildingObject.GetAvailableSeatForPassenger() != null)
-            {
+            if(buildingObject.IsBuilded)
                 availableBuilding.Add(buildingObject);
-            }
         }
 
         if (availableBuilding.Count <= 0) return null; 
+        return availableBuilding[Random.Range(0, availableBuilding.Count)];
+    }
+
+    public BuildingObject GetRandomReceptionistAreaForPassenger()
+    {
+        List<BuildingObject> availableBuilding = new List<BuildingObject>();
+        foreach (BuildingObject buildingObject in receptionistAreas)
+        {
+            if (!buildingObject.CheckCanServeMorePassenger() || !buildingObject.IsBuilded) continue;
+            availableBuilding.Add(buildingObject);
+        }
+
+        if (availableBuilding.Count <= 0) return null;
         return availableBuilding[Random.Range(0, availableBuilding.Count)];
     }
 }

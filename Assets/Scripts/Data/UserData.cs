@@ -10,10 +10,15 @@ namespace Data
     public class UserData : SavePlayerPrefs
     {
         public bool alreadyLoad;
+        public bool needTutorial;
         public float money;
-        public int currentExp;
-        public int nextExp;
+        public float startExp;
+        public float currentExp;
+        public float nextExp;
         public int level;
+        public int numberOfStaff;
+        public float passengerCooldown;
+
         public List<BuildedBuilding> buildedBuildingList = new List<BuildedBuilding>();   
         public Dictionary<int, int> buildedBuildingDict = new Dictionary<int, int>();
 
@@ -25,10 +30,13 @@ namespace Data
                 return false;
             }
             currentExp = 0;
+            startExp = 0;
             nextExp = 10;
             level = 1;
             alreadyLoad = true;
-
+            numberOfStaff = 4;
+            passengerCooldown = .5f;
+            needTutorial = true;
             return true;
         }
 
@@ -51,7 +59,7 @@ namespace Data
                 AddBuildedBuilding(id, 1);
             }
         }
-        public void AddExp(int exp, Action nextLevelAction)
+        public void AddExp(float exp, Action nextLevelAction)
         {
             this.currentExp += exp;
             CheckNextLevel(nextLevelAction);
@@ -62,7 +70,9 @@ namespace Data
             if (currentExp >= nextExp)
             {
                 level++;
+                startExp = nextExp;
                 nextExp = nextExp * 2;
+              
                 nextLevelAction?.Invoke();
             }
         }

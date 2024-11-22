@@ -6,9 +6,11 @@ using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Data;
+using Unity.AI.Navigation;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] NavMeshSurface navMeshSurface;
     public UserData UserData
     {
         get; private set;
@@ -20,15 +22,17 @@ public class GameManager : Singleton<GameManager>
         UserData = Game.Data.Load<UserData>();
         if (UserData.Init())
         {
-            BuildingManager.Instance.NeedTutorial = true;
+            //BuildingManager.Instance.NeedTutorial = true;
         }
         //UserData.coin = 0;
+        BakeNavMesh();
     }
    
 
     private void Start()
     {
         ChangeState(GameStates.Start);
+        GameUI.Instance.Get<UIInGame>().Show();
     }
 
    
@@ -72,13 +76,17 @@ public class GameManager : Singleton<GameManager>
     {
         if (CheckBuildedBuiling(id) != -1) return;
         UserData.money -= cost;
-        UserData.AddBuildedBuilding(id, 1);       
+        UserData.AddBuildedBuilding(id, 1);
+        GameUI.Instance.Get<UIInGame>().SetCoinText(UserData.money);
+        BakeNavMesh();
     }
     public void UpdateBuilding(float cost, int id)
     {
         if (CheckBuildedBuiling(id) == -1) return;
         UserData.money -= cost;
         UserData.UpdateBuildedBuilding(id);
+        
+        BakeNavMesh();
     }
     public int CheckBuildedBuiling(int id)
     {
@@ -97,18 +105,24 @@ public class GameManager : Singleton<GameManager>
             Debug.Log(key);
         }
     }
-    public void AddExp(int exp)
+    public void AddExp(float exp)
     {
         UserData.AddExp(exp, BuildingManager.Instance.CheckBuildingUpdate);
+        GameUI.Instance.Get<UIInGame>().SetLevelProgress(UserData.currentExp, UserData.nextExp, UserData.startExp, UserData.level);
     }
 
-    public void AddMoney(int money)
+    public void AddMoney(float money)
     {
         UserData.money += money;
         BuildingManager.Instance.CheckBuildingUpdate();
+        GameUI.Instance.Get<UIInGame>().SetCoinText(UserData.money);
     }
 
-  
+
+    public void BakeNavMesh()
+    {
+        navMeshSurface.BuildNavMesh();
+    }
 }
 
 public enum GameStates

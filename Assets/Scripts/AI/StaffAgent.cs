@@ -7,13 +7,14 @@ public class StaffAgent : Agent
 {
     [SerializeField] StaffState staffState = StaffState.Free;
     [SerializeField] StaffType staffType = StaffType.AllPosition;
-    public StaffType StaffType => StaffType;
-    public Vector3 StartPosition;
+    public StaffType StaffType => staffType;
+    public StaffState StaffState => staffState;
+    public Transform StartPosition;
 
     public override void OnStart()
     {
         base.OnStart();
-
+        
     }
 
     public void ChangeState(StaffState newState)
@@ -41,33 +42,45 @@ public class StaffAgent : Agent
 
     void OnFree()
     {
-        //StaffManager.Instance.FindTask(this);
         SetDestination(StartPosition);
     }
 
     public void GetTask(BuildingObject buildingObject)
     {
-        SeatInBuilding seat = buildingObject.GetAvailableSeatForStaff();
-        SetDestination(seat.transform.position);
-        seat.OnUse();
-        
+        SetSeat(buildingObject.GetAvailableSeatForStaff());
+        //Debug.Log(seat);
+        if (seat != null)
+        {
+            SetDestination(seat.transform);
+            Game.Update.AddTask(OnStaffReachedSeat);
+        }
+     
     }
 
-    private IEnumerator WaitForAgentArrival(SeatInBuilding seat)
+    private void OnStaffReachedSeat()
     {
-        yield return new WaitUntil(() =>
-            !navMeshAgent.pathPending &&
-            navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance &&
-            (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
-        );
-
-        Debug.Log("Agent has arrived at the destination!");
-        OnDestinationReached(seat);
+        if(hadReachTarget && seat != null)
+        {
+            Debug.Log("Agent has arrived at the destination!");
+            OnDestinationReached();
+            Game.Update.RemoveTask(OnStaffReachedSeat);
+        }    
+          
     }
 
-    private void OnDestinationReached(SeatInBuilding seat)
+    public override void OnFinishTask()
     {
-        seat.OnSeated();
+        base.OnFinishTask();
+        seat.isSeatedIn = false;
+        seat.isOpen = true;
+        seat.SetStaffSeatHadStaffHelp(false);
+        ChangeState(StaffState.Free);
+    }
+
+    protected override void OnDestinationReached()
+    {
+        base.OnDestinationReached();
+        seat.SetHadStaffHelp(true);
     }
 }
 public enum StaffType

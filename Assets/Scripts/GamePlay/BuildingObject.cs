@@ -6,12 +6,14 @@ public class BuildingObject : MonoBehaviour
 {
     public int ID = -1;
     public int level = 1;
+
     public bool needStaffHelp = false;
-    public bool hadStaffHelp = false;
+
 
     [SerializeField] BuildingSO buildingSO;
     public BuildingSO BuildingSO => buildingSO;
     List<SeatInBuilding> seats = new List<SeatInBuilding>();
+    List<WaitLineInBuilding> waitLineInBuildings = new List<WaitLineInBuilding>();
     public bool IsBuilded = false;
     public float moneyEarnedPerPassenger;
 
@@ -30,7 +32,7 @@ public class BuildingObject : MonoBehaviour
         updateIcon.gameObject.SetActive(false);
         moneyEarnedPerPassenger = GetMoneyEarnedPerPassgenger();
         SetUpUpdateIcon();
-        
+
         int level = GameManager.Instance.CheckBuildedBuiling(ID);
         if(level != -1)
         {
@@ -39,13 +41,15 @@ public class BuildingObject : MonoBehaviour
             SpawnBuildingPref();
         }
 
-        CheckNeedStaffHelp();
+        NeedStaffHelp();
         CheckUpdate();
     }
 
     public void SetUpUpdateIcon()
     {
+        updateIcon.gameObject.SetActive(true);
         updateIcon.SetUp(this);
+        updateIcon.gameObject.SetActive(false);
     }
 
     void SpawnBuildingPref()
@@ -54,10 +58,11 @@ public class BuildingObject : MonoBehaviour
         IsBuilded = true;
         foreach (GameObject go in destroyAfterBuildObjects)
         {
-            Destroy(go);
+            go.SetActive(false);
         }
 
         SeatInBuilding[] seats = currentBuildingObject.GetComponentsInChildren<SeatInBuilding>();
+        
         this.seats.Clear();
         this.seats.AddRange(seats);
 
@@ -65,6 +70,18 @@ public class BuildingObject : MonoBehaviour
         {
             seat.SetUp(this);
         }
+
+        WaitLineInBuilding[] waitLineInBuildings = currentBuildingObject.GetComponentsInChildren<WaitLineInBuilding>();
+
+        this.waitLineInBuildings.Clear();
+        this.waitLineInBuildings.AddRange(waitLineInBuildings);
+        foreach (WaitLineInBuilding w in waitLineInBuildings)
+        {
+            w.OnStart();
+        }
+
+
+        GameManager.Instance.BakeNavMesh();
     }
     public void Build()
     {
@@ -73,16 +90,32 @@ public class BuildingObject : MonoBehaviour
         GameManager.Instance.AddBuildedBuilding(buildingSO.buildCost, ID);
     }
 
-    public SeatInBuilding GetAvailableSeatForPassenger()
+    public void UpdateBuilding()
     {
-        foreach(SeatInBuilding seat in this.seats)
+
+        GameManager.Instance.UpdateBuilding(GetNextUpdateCost(), ID);
+        level++;
+    }
+
+    public bool GetAvailableSeatForPassenger(PassengerAgent passengerAgent)
+    {
+        foreach (WaitLineInBuilding wait in waitLineInBuildings)
         {
-            if(seat.isOpen && !seat.isSeatedIn && seat.SeatType == SeatType.Passenger)
+            if (wait.HadFreeSeat())
             {
-                return seat;
+                wait.AddPassenger(passengerAgent);
+                return true;
             }
         }
-        return null;
+        foreach (WaitLineInBuilding wait in waitLineInBuildings)
+        {
+            if (wait.CanAddMorePassenger())
+            {
+                wait.AddPassenger(passengerAgent);
+                return true;
+            }
+        }
+        return false;
     }
 
     public SeatInBuilding GetAvailableSeatForStaff()
@@ -103,10 +136,10 @@ public class BuildingObject : MonoBehaviour
     {
         float money = buildingSO.baseMoneyEarned;
 
-        for (int i = 0; i < level; i++)
-        {
-            money *= (1 + buildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
-        }
+        //for (int i = 0; i < level; i++)
+        //{
+        //    money *= (1 + buildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
+        //}
 
         return money;
     }
@@ -143,6 +176,7 @@ public class BuildingObject : MonoBehaviour
             {
                 if(userData.money >= buildingSO.buildCost)
                 {
+                    SetUpUpdateIcon();
                     updateIcon.gameObject.SetActive(true);
                 }
             }
@@ -150,35 +184,50 @@ public class BuildingObject : MonoBehaviour
             {
                 if (userData.money >= GetNextUpdateCost())
                 {
+                    SetUpUpdateIcon();
                     updateIcon.gameObject.SetActive(true);
                 }
             }
             
         }
     }
-    public void SetHadStaffHelp(bool b)
-    {
-        hadStaffHelp = b;
-    }
+
     public void CheckRemainSeatPassengerToFreeStaff()
     {
         foreach (SeatInBuilding seat in seats)
         {
-            if(seat.isOpen && seat.SeatType == SeatType.Passenger) return;
+            if(seat.isSeatedIn && seat.SeatType == SeatType.Passenger) return;
         }
 
         foreach(SeatInBuilding seat in seats)
         {
-            if (seat.isOpen && seat.SeatType == SeatType.Staff)
+            if (seat.isSeatedIn && seat.SeatType == SeatType.Staff)
             {
-                StaffAgent staffAgent = (StaffAgent)seat.Agent;
-                staffAgent.ChangeState(StaffState.Free);
+                seat.Agent.OnFinishTask();
+
             }
         }
     }
-    public void CheckNeedStaffHelp()
+    public void NeedStaffHelp()
     {
-        if (buildingSO.needStaffHelp) needStaffHelp = true;
+        if (buildingSO.needStaffHelp)
+        {
+           needStaffHelp = true;
+            return;
+        }
+        needStaffHelp = false;
+    }
+
+    public bool CheckCanServeMorePassenger()
+    {
+        foreach (WaitLineInBuilding wait in waitLineInBuildings)
+        {
+            if (wait.CanAddMorePassenger())
+            {
+                return true;
+            }
+        }
+        return false;
     }
     #endregion
 }

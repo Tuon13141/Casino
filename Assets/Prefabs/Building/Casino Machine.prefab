@@ -45,6 +45,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Slot_Machine_03
       objectReference: {fileID: 0}
+    - target: {fileID: 3976501866052899532, guid: 4dd79b62af93af446a64e60328e67b66,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4351761248102287478, guid: 4dd79b62af93af446a64e60328e67b66,
         type: 3}
       propertyPath: m_RootOrder

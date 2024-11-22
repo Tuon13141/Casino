@@ -18,7 +18,10 @@ MonoBehaviour:
   unlockedLevel: 1
   buildCost: 0
   baseMoneyEarned: 10
+  baseExpEarned: 1
   baseUpdateCost: 15
   baseMoneyEarnedIncreasePercentPerLevel: 10
+  baseExpEarnedIncreasePercentPerLevel: 10
   baseMoneyUpdateIncreasePercentPerLevel: 100
   needStaffHelp: 0
+  serveTime: 5

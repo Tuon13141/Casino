@@ -15,8 +15,13 @@ MonoBehaviour:
   buildingType: 0
   buildingPref: {fileID: 8277276206488802562, guid: 7f8da63e1e82e104dbe250f25d8701fa,
     type: 3}
+  unlockedLevel: 1
   buildCost: 0
   baseMoneyEarned: 5
+  baseExpEarned: 1
   baseUpdateCost: 15
   baseMoneyEarnedIncreasePercentPerLevel: 10
+  baseExpEarnedIncreasePercentPerLevel: 10
   baseMoneyUpdateIncreasePercentPerLevel: 100
+  needStaffHelp: 1
+  serveTime: 2

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2511985936117131330}
   - component: {fileID: 1500303508930425035}
+  - component: {fileID: 5017258298752232158}
   m_Layer: 0
   m_Name: Staff
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214839287844821628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -55,6 +56,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5017258298752232158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214839287844821628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb6b9b882f1a0a48b5249ece41bded2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMoveSpeed: 0
+  destination: {fileID: 0}
+  speed: 10
+  rotationSpeed: 15
+  staffState: 0
+  staffType: 0
+  StartPosition: {fileID: 0}
 --- !u!1 &2499180750376102962
 GameObject:
   m_ObjectHideFlags: 0

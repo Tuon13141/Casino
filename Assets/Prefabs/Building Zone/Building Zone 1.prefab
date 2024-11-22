@@ -51,6 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   level: 1
+  needStaffHelp: 0
+  hadStaffHelp: 0
   buildingSO: {fileID: 0}
   IsBuilded: 0
   moneyEarnedPerPassenger: 0

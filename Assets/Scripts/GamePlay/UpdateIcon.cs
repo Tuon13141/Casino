@@ -19,7 +19,8 @@ public class UpdateIcon : MonoBehaviour
         }
         else
         {
-
+            GameUI.Instance.Get<UIUpdateBuilding>().Show();
+            GameUI.Instance.Get<UIUpdateBuilding>().SetUp(buildingObject.GetNextUpdateCost(), buildingObject.GetNextMoneyEarnedPerPassgenger(), buildingObject.UpdateBuilding);
         }   
 
         Debug.Log(gameObject.name + " was clicked!");

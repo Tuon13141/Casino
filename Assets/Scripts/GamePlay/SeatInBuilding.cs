@@ -7,9 +7,12 @@ public class SeatInBuilding : MonoBehaviour
     public bool isOpen = true;
     public SeatType SeatType = SeatType.Passenger;
     public bool isSeatedIn = false;
-    BuildingObject buildingObject;
-
+    public BuildingObject buildingObject;
+    public bool hadStaffHelp = false;
     public Agent Agent;
+    public WaitLineInBuilding WaitLineInBuilding { get;set; }
+    [SerializeField] SeatInBuilding staffHelpSeat;
+    public Vector3 agentAngle = new Vector3(0, 0 , 0);
     public void SetUp(BuildingObject buildingObject)
     {
         this.buildingObject = buildingObject;
@@ -26,12 +29,14 @@ public class SeatInBuilding : MonoBehaviour
         //isSeatedIn = true;
     }
 
-    public void OnSeated()
+    public void OnSeated(Agent agent)
     {
+        this.Agent = agent;
         switch (SeatType)
         {
             case SeatType.Passenger:
-                
+                isSeatedIn = true;
+                StartCoroutine(OnPassengerSeat());
                 break;
             case SeatType.Staff:
                 OnStaffSeat();
@@ -41,16 +46,43 @@ public class SeatInBuilding : MonoBehaviour
 
     void OnStaffSeat()
     {
-        buildingObject.SetHadStaffHelp(true);
+        isSeatedIn = true;
+        staffHelpSeat.SetHadStaffHelp(true);
+    }
+    public void SetHadStaffHelp(bool b)
+    {
+        hadStaffHelp = b;
     }
 
+    public void SetStaffSeatHadStaffHelp(bool b)
+    {
+        staffHelpSeat.SetHadStaffHelp(b);
+    }
     IEnumerator OnPassengerSeat()
     {
-        yield return new WaitUntil(() => buildingObject.hadStaffHelp);
+        if (buildingObject.BuildingSO.needStaffHelp)
+        {
+            yield return new WaitUntil(() => hadStaffHelp);
+        }
+       
 
         yield return new WaitForSeconds(buildingObject.BuildingSO.serveTime);
 
-        GameManager.Instance.AddMoney(0);
+        float moneyEarned = buildingObject.BuildingSO.baseMoneyEarned;
+        float expEarned = buildingObject.BuildingSO.baseExpEarned;
+        for (int i = 1; i < buildingObject.level; i++)
+        {
+            moneyEarned *= (1 + buildingObject.BuildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
+            expEarned += (1 + buildingObject.BuildingSO.baseExpEarnedIncreasePercentPerLevel / 100);
+        }
+        GameManager.Instance.AddMoney(moneyEarned);
+        GameManager.Instance.AddExp(expEarned);
+        Agent.OnFinishTask();
+        isSeatedIn = false;
+        Agent = null;
+        yield return new WaitForSeconds(0.5f);
+        isOpen = true;
+        WaitLineInBuilding.CaculateWaitPositions();
         buildingObject.CheckRemainSeatPassengerToFreeStaff();
     }
 }
