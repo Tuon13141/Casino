@@ -13,14 +13,14 @@ public class Agent : MonoBehaviour
     public float speed = 10f; 
 
     private NavMeshPath navMeshPath; 
-    private List<Vector3> movePath = new List<Vector3>(); 
-    private int currentIndex;
+    protected List<Vector3> movePath = new List<Vector3>(); 
+    protected int currentIndex;
     protected bool isMoving = false; 
     protected bool hadReachTarget = false;
 
 
     protected SeatInBuilding seat;
-    [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] float rotationSpeed = 15f;
     bool isWait = false;
     Vector3 angle;
 
@@ -46,7 +46,7 @@ public class Agent : MonoBehaviour
         }
     }
 
-    private void MoveAlongPath()
+    protected virtual void MoveAlongPath()
     {
         if (currentIndex >= movePath.Count) 
         {
@@ -145,7 +145,7 @@ public class Agent : MonoBehaviour
     public void SetAngle(Vector3 vector3)
     {
         float angle = Mathf.Atan2(vector3.x, vector3.z) * Mathf.Rad2Deg;
-        this.angle = new Vector3(0, angle, 0);
+        this.angle = new Vector3(0,  angle, 0);
     }
     private void OnDestroy()
     {

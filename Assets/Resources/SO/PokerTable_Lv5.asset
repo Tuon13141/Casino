@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9600e945b175fb418674281f276c5b6, type: 3}
-  m_Name: PokerTable_Lv2
+  m_Name: PokerTable_Lv5
   m_EditorClassIdentifier: 
   buildingType: 0
   buildingPref: {fileID: 1895344619900355528, guid: 6855f0c57e6b4c14d866e58542eb9eec,
     type: 3}
-  unlockedLevel: 2
+  unlockedLevel: 5
   buildCost: 50
   baseMoneyEarned: 10
   baseExpEarned: 1
@@ -23,5 +23,5 @@ MonoBehaviour:
   baseMoneyEarnedIncreasePercentPerLevel: 10
   baseExpEarnedIncreasePercentPerLevel: 10
   baseMoneyUpdateIncreasePercentPerLevel: 100
-  needStaffHelp: 0
+  needStaffHelp: 1
   serveTime: 5

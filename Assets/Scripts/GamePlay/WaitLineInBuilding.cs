@@ -37,7 +37,7 @@ public class WaitLineInBuilding : MonoBehaviour
         foreach(PassengerAgent passengerAgent in passengerAgents)
         {
             Vector3 targetPosition = seat.transform.position;
-            Vector3 direction = (targetPosition - new Vector3(transform.position.x, targetPosition.y, transform.position.z)).normalized;
+            Vector3 direction = (targetPosition - new Vector3(passengerAgent.transform.position.x, targetPosition.y, passengerAgent.transform.position.z)).normalized;
             passengerAgent.SetAngle(direction);
             passengerAgent.SetDestination(waitPositions[index], true);
             index++;
@@ -50,7 +50,7 @@ public class WaitLineInBuilding : MonoBehaviour
     {
         if (passengerAgents.Count >= waitPositions.Count)
         {
-            Debug.Log("Full");
+            //Debug.Log("Full");
             return false;
         }
         return true;
@@ -64,6 +64,12 @@ public class WaitLineInBuilding : MonoBehaviour
         }
         return false;
     }
+
+    public bool HadStaff()
+    {
+        if(seat.hadStaffHelp) return true;
+        return false;
+    }
     void CaculatePassenger(PassengerAgent passengerAgent)
     {
         int i = passengerAgents.Count;
@@ -71,17 +77,21 @@ public class WaitLineInBuilding : MonoBehaviour
         {
             if (seat.isOpen && !seat.isSeatedIn && seat.Agent == null)
             {
-                Debug.Log("First Passenger");
+                //Debug.Log("First Passenger");
                 passengerAgent.GoToSeatInBuilding(seat);
                 return;
             }
         }
         passengerAgents.Enqueue(passengerAgent);
         Vector3 targetPosition = seat.transform.position;
-        Vector3 direction = (targetPosition - new Vector3(transform.position.x, targetPosition.y, transform.position.z)).normalized;
+        Vector3 direction = (targetPosition - new Vector3(passengerAgent.transform.position.x, targetPosition.y, passengerAgent.transform.position.z)).normalized;
         passengerAgent.SetAngle(direction);
         passengerAgent.SetDestination(waitPositions[i], true);
     }
     
-
+    public bool HadPassenger()
+    {
+        if(passengerAgents.Count == 0) return false;
+        return true;
+    }
 }

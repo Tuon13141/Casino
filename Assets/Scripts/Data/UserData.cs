@@ -34,8 +34,8 @@ namespace Data
             nextExp = 10;
             level = 1;
             alreadyLoad = true;
-            numberOfStaff = 4;
-            passengerCooldown = .5f;
+            numberOfStaff = 1;
+            passengerCooldown = 5f;
             needTutorial = true;
             return true;
         }

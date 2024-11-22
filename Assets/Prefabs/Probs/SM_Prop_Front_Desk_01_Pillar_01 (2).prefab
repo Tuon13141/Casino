@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7438823413000357703}
   - component: {fileID: 171663522692751697}
   - component: {fileID: 3578292632438551385}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Prop_Front_Desk_01_Pillar_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -23,7 +23,7 @@ public class UpdateIcon : MonoBehaviour
             GameUI.Instance.Get<UIUpdateBuilding>().SetUp(buildingObject.GetNextUpdateCost(), buildingObject.GetNextMoneyEarnedPerPassgenger(), buildingObject.UpdateBuilding);
         }   
 
-        Debug.Log(gameObject.name + " was clicked!");
+       
     }
 
     public void PlayPulseEffect(Vector3 minScale, Vector3 maxScale, float scaleSpeedTime, float time)

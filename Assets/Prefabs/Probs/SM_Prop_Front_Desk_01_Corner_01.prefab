@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6541208767397794654}
   - component: {fileID: 253902240556411661}
   - component: {fileID: 5907142564686941217}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Prop_Front_Desk_01_Corner_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

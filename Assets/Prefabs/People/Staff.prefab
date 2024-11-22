@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2511985936117131330}
   - component: {fileID: 1500303508930425035}
   - component: {fileID: 5017258298752232158}
-  m_Layer: 0
+  - component: {fileID: 2876096049727577330}
+  m_Layer: 3
   m_Name: Staff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,6 +76,29 @@ MonoBehaviour:
   staffState: 0
   staffType: 0
   StartPosition: {fileID: 0}
+--- !u!136 &2876096049727577330
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214839287844821628}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.3235713
+  m_Height: 5.238172
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.119086, z: 0}
 --- !u!1 &2499180750376102962
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,7 +108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084657257642212162}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6701686195188331231}
   - component: {fileID: 3788936535078161394}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: body_tuxedo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8672374712722736818}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -37,9 +37,11 @@ public class StaffManager : Singleton<StaffManager>
 
     public void OnUpdate()
     {
-        foreach (StaffAgent agent in staffAgents)
+        for (int i = staffAgents.Count - 1; i >= 0; i--)
         {
+            StaffAgent agent = staffAgents[i];
             if (agent.StaffState != StaffState.Free) continue;
+
             switch (agent.StaffType)
             {
                 case StaffType.AllPosition:
@@ -49,7 +51,8 @@ public class StaffManager : Singleton<StaffManager>
                     break;
             }
         }
-        
+
+        BuildingManager.Instance.FirstLoad = false;
     }
 
     public void AddStaff()

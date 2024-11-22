@@ -22,6 +22,12 @@ public class ClickManager : MonoBehaviour
                 {
                     updateIcon.OnClick();
                 }
+
+                StaffAgent staffAgent = hit.collider.GetComponent<StaffAgent>();
+                if (staffAgent != null)
+                {
+                    staffAgent.SpeedUpTemporary(1.5f, 2);
+                }
             }
         }
     }

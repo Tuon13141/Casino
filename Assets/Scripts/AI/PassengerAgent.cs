@@ -42,7 +42,7 @@ public class PassengerAgent : Agent
         {
             if (passengerState == PassengerState.OnGoingToReceptionistArea)
             {
-                Debug.Log("Get Ticket");
+                //Debug.Log("Get Ticket");
                 seat = null;
                 ChangeState(PassengerState.OnGoingToMainDestination);
             }
@@ -50,7 +50,7 @@ public class PassengerAgent : Agent
             {
                 if (buildingIndex >= destinationBuildings.Count)
                 {
-                    Debug.Log("Done");
+                    //Debug.Log("Done");
                     ChangeState(PassengerState.OnGoingOut);
                 }
                 else
@@ -99,7 +99,7 @@ public class PassengerAgent : Agent
     {
         if (!destinationBuildings[buildingIndex].GetAvailableSeatForPassenger(this))
         {
-            Debug.Log(1);
+            //Debug.Log(1);
             ChangeState(PassengerState.OnGoingOut);
             return;
         }

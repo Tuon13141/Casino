@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6173713276631384308}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4604093375264988192}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1678058478561599646}
   - component: {fileID: 7909287856965752772}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: body_gang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,8 @@ GameObject:
   - component: {fileID: 7251869385191648126}
   - component: {fileID: 2212826057434759579}
   - component: {fileID: 6847771521356803317}
-  m_Layer: 0
+  - component: {fileID: 3169046214319056960}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,3 +224,26 @@ MonoBehaviour:
   speed: 10
   rotationSpeed: 15
   passengerState: 0
+--- !u!136 &3169046214319056960
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479642242570758129}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.3235713
+  m_Height: 5.238172
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.119086, z: 0}

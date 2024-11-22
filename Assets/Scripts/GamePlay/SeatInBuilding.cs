@@ -10,9 +10,12 @@ public class SeatInBuilding : MonoBehaviour
     public BuildingObject buildingObject;
     public bool hadStaffHelp = false;
     public Agent Agent;
-    public WaitLineInBuilding WaitLineInBuilding { get;set; }
-    [SerializeField] SeatInBuilding staffHelpSeat;
-    public Vector3 agentAngle = new Vector3(0, 0 , 0);
+    public WaitLineInBuilding WaitLineInBuilding { get; set; }
+    [SerializeField] List<SeatInBuilding> HelpedSeats = new();
+    public Vector3 agentAngle = new Vector3(0, 0, 0);
+
+    private float serveTimer = 0f;
+
     public void SetUp(BuildingObject buildingObject)
     {
         this.buildingObject = buildingObject;
@@ -26,7 +29,6 @@ public class SeatInBuilding : MonoBehaviour
     public void OnUse()
     {
         isOpen = false;
-        //isSeatedIn = true;
     }
 
     public void OnSeated(Agent agent)
@@ -35,8 +37,8 @@ public class SeatInBuilding : MonoBehaviour
         switch (SeatType)
         {
             case SeatType.Passenger:
-                isSeatedIn = true;
-                StartCoroutine(OnPassengerSeat());
+               
+                StartPassengerSeat();
                 break;
             case SeatType.Staff:
                 OnStaffSeat();
@@ -47,8 +49,12 @@ public class SeatInBuilding : MonoBehaviour
     void OnStaffSeat()
     {
         isSeatedIn = true;
-        staffHelpSeat.SetHadStaffHelp(true);
+        foreach(SeatInBuilding seatInBuilding in HelpedSeats)
+        {
+            seatInBuilding.SetHadStaffHelp(true);
+        }
     }
+
     public void SetHadStaffHelp(bool b)
     {
         hadStaffHelp = b;
@@ -56,34 +62,79 @@ public class SeatInBuilding : MonoBehaviour
 
     public void SetStaffSeatHadStaffHelp(bool b)
     {
-        staffHelpSeat.SetHadStaffHelp(b);
-    }
-    IEnumerator OnPassengerSeat()
-    {
-        if (buildingObject.BuildingSO.needStaffHelp)
+        foreach (SeatInBuilding seatInBuilding in HelpedSeats)
         {
-            yield return new WaitUntil(() => hadStaffHelp);
+            seatInBuilding.SetHadStaffHelp(b);
         }
-       
+    }
 
-        yield return new WaitForSeconds(buildingObject.BuildingSO.serveTime);
+    void StartPassengerSeat()
+    {
+        isSeatedIn = true;
+        serveTimer = buildingObject.BuildingSO.serveTime;
 
+        Game.Update.AddTask(OnUpdate);
+    }
+
+    void OnUpdate()
+    {
+        if (!buildingObject.BuildingSO.needStaffHelp || hadStaffHelp && isSeatedIn)
+        {
+            HandlePassengerServing();
+        }
+    }
+
+    void HandlePassengerServing()
+    {
+        if (serveTimer > 0)
+        {
+            serveTimer -= Time.deltaTime;
+            return;
+        }
+
+        // Calculate money and experience
         float moneyEarned = buildingObject.BuildingSO.baseMoneyEarned;
         float expEarned = buildingObject.BuildingSO.baseExpEarned;
+
         for (int i = 1; i < buildingObject.level; i++)
         {
             moneyEarned *= (1 + buildingObject.BuildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
             expEarned += (1 + buildingObject.BuildingSO.baseExpEarnedIncreasePercentPerLevel / 100);
         }
+
+        // Add the earned resources
         GameManager.Instance.AddMoney(moneyEarned);
         GameManager.Instance.AddExp(expEarned);
+
+        // Finish the task and reset
         Agent.OnFinishTask();
         isSeatedIn = false;
         Agent = null;
-        yield return new WaitForSeconds(0.5f);
+
+        // Reset the seat and wait line
         isOpen = true;
-        WaitLineInBuilding.CaculateWaitPositions();
-        buildingObject.CheckRemainSeatPassengerToFreeStaff();
+
+        foreach(SeatInBuilding seat in HelpedSeats)
+        {
+            seat.WaitLineInBuilding.CaculateWaitPositions();
+        }
+       
+        CheckRemainSeatPassengerToFreeStaff();
+
+        Game.Update.RemoveTask(OnUpdate);
+    }
+
+    public void CheckRemainSeatPassengerToFreeStaff()
+    {
+        foreach (SeatInBuilding seat in HelpedSeats)
+        {
+            if (seat.WaitLineInBuilding.HadPassenger())
+            {
+                return;
+            }
+        }
+        
+        Agent.OnFinishTask();
     }
 }
 
