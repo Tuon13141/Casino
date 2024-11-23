@@ -20,7 +20,7 @@ public class UpdateIcon : MonoBehaviour
         else
         {
             GameUI.Instance.Get<UIUpdateBuilding>().Show();
-            GameUI.Instance.Get<UIUpdateBuilding>().SetUp(buildingObject.GetNextUpdateCost(), buildingObject.GetNextMoneyEarnedPerPassgenger(), buildingObject.UpdateBuilding, buildingObject.level);
+            GameUI.Instance.Get<UIUpdateBuilding>().SetUp(buildingObject.GetNextUpdateCost(), buildingObject.GetNextMoneyEarnedPerPassgenger(), buildingObject.UpdateBuilding, buildingObject.level, buildingObject.transform);
         }   
 
        

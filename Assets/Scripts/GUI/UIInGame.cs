@@ -21,6 +21,7 @@ public class UIInGame : UIElement
     [SerializeField] GameObject levelObject;
     [SerializeField] GameObject moneyObject;
 
+    [SerializeField] Button updateButton;
     private void Start()
     {
         UserData userData = GameManager.Instance.UserData;
@@ -29,6 +30,8 @@ public class UIInGame : UIElement
         levelText.text = "Lv" + userData.level.ToString() + " : " + userData.currentExp.ToString("N0") + "/" + userData.nextExp.ToString("N0");
 
         levelSlider.fillAmount = progress;
+
+        updateButton.onClick.AddListener(UpdateButton);
     }
     public void SetCoinText(float money)
     {
@@ -48,7 +51,12 @@ public class UIInGame : UIElement
     }
     public void PlayScaleAnimation(GameObject gameObject)
     {
-        animationContext.SetAnimationStrategy(new ScaleAnimation(new Vector3(1.2f, 1.2f, 1.2f), 0.5f));
+        animationContext.SetAnimationStrategy(new ScaleAnimation(new Vector3(1.1f, 1.1f, 1.1f), 0.5f));
         animationContext.PlayAnimation(gameObject);
+    }
+
+    public void UpdateButton()
+    {
+
     }
 }

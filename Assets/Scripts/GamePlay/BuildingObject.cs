@@ -100,7 +100,7 @@ public class BuildingObject : MonoBehaviour
         GameManager.Instance.UpdateBuilding(GetNextUpdateCost(), ID);
         level++;
 
-        GameUI.Instance.Get<UIUpdateBuilding>().SetUp(GetNextUpdateCost(), GetNextMoneyEarnedPerPassgenger(), UpdateBuilding, level);
+        GameUI.Instance.Get<UIUpdateBuilding>().SetUp(GetNextUpdateCost(), GetNextMoneyEarnedPerPassgenger(), UpdateBuilding, level, transform);
     }
 
     public bool GetAvailableSeatForPassenger(PassengerAgent passengerAgent)

@@ -190,7 +190,7 @@ public class BuildingManager : Singleton<BuildingManager>
                 float distanceToCamera = Vector3.Distance(mainCamera.transform.position, objectPosition);
 
                 // Tính toán scale để đảm bảo kích thước bằng targetSize
-                float scaleFactor = (distanceToCamera * Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad)) / targetSize;
+                float scaleFactor = (distanceToCamera * Mathf.Tan(mainCamera.fieldOfView * 0.2f * Mathf.Deg2Rad)) / targetSize;
 
                 // Áp dụng scale mới
                 obj.transform.localScale = Vector3.one * scaleFactor;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -21,10 +21,14 @@ public class UIUpdateBuilding : UIElement
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI nextLevelText;
 
+    bool firstLoad = true;
+
     Action onOkButton;
 
     float cost;
-    public void SetUp(float cost, float earn, Action onOkButton, int level)
+
+    [SerializeField] RectTransform board;
+    public void SetUp(float cost, float earn, Action onOkButton, int level, Transform transform)
     {
         this.cost = cost;
         costText.text = cost.ToString();
@@ -35,6 +39,16 @@ public class UIUpdateBuilding : UIElement
         this.onOkButton = onOkButton;
 
         CheckMoneyToUpdate();
+
+        Vector3 worldPos = transform.position;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPos);
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+      
+        Vector3 midPoint = (screenPosition + screenCenter) / 2;
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(midPoint.x, midPoint.y, screenPosition.z)); 
+
+
+        board.position = midPoint;
     }
 
     Action onHideAction;
@@ -56,6 +70,11 @@ public class UIUpdateBuilding : UIElement
         backButton.onClick.AddListener(BackButton);
     }
 
+    public override void Show()
+    {
+        base.Show();
+        firstLoad = false;
+    }
     public void CheckMoneyToUpdate()
     {
         if (GameManager.Instance.UserData.money < cost)
@@ -66,6 +85,8 @@ public class UIUpdateBuilding : UIElement
         {
             okButton.gameObject.SetActive(true);
         }
+
+        if(firstLoad) Hide();
     }
 }
 

@@ -80,7 +80,6 @@ public class SeatInBuilding : MonoBehaviour
             currentProgressUI = Instantiate(progressUI);
 
             currentProgressUI.SetUp(transform);
-            BuildingManager.Instance.AddToCameraEqualScaleObject(currentProgressUI.gameObject);
             currentProgressUI.SetActive(false);
         }
         else
