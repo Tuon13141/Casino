@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class StaffAgent : Agent
 {
@@ -44,20 +45,29 @@ public class StaffAgent : Agent
 
     void OnFree()
     {
-        SetDestination(StartPosition);
+        //SetDestination(StartPosition);
     }
 
     public void GetTask(BuildingObject buildingObject)
     {
-        SetSeat(buildingObject.GetAvailableSeatForStaff());
-        //Debug.Log(seat);
         if (seat != null)
         {
-            SetDestination(seat.transform);
-            ChangeState(StaffState.Busy);
-            Game.Update.AddTask(OnStaffReachedSeat);
+            seat.isSeatedIn = false;
+            seat.isOpen = true;
+
+
+            seat.SetStaffSeatHadStaffHelp(false);
+
+            seat = null;
         }
-     
+        SeatInBuilding seatInBuilding = buildingObject.GetAvailableSeatForStaff();
+
+        SetSeat(seatInBuilding);
+        ChangeState(StaffState.Busy);
+
+        SetDestination(seat.transform);
+
+        Game.Update.AddTask(OnStaffReachedSeat);
     }
 
     private void OnStaffReachedSeat()
@@ -74,11 +84,9 @@ public class StaffAgent : Agent
     public override void OnFinishTask()
     {
         base.OnFinishTask();
-        seat.isSeatedIn = false;
-        seat.isOpen = true;
-        seat.SetStaffSeatHadStaffHelp(false);
-        seat = null;
+
         ChangeState(StaffState.Free);
+
     }
 
     protected override void OnDestinationReached()
@@ -92,10 +100,9 @@ public class StaffAgent : Agent
 
     public void SpeedUpTemporary(float time, float index)
     {
-        if (BuildingManager.Instance.NeedTutorial)
-        {
-            BuildingManager.Instance.DestroyTutorialPointer();
-        }
+        BuildingManager.Instance.DestroyTutorialPointer();
+
+
         speed = originalSpeed * index;
         speedUpTimer = time; 
         isSpeedingUp = true;
@@ -123,10 +130,18 @@ public class StaffAgent : Agent
 
     protected override void MoveAlongPath()
     {
-        if(BuildingManager.Instance.NeedTutorialPointer && currentIndex >= movePath.Count / 2 )
+        if(BuildingManager.Instance.NeedTutorialPointer)
         {
-            BuildingManager.Instance.PlaceTutorialPointer(transform);
-            speed = 0;
+            float totalDistance = Vector3.Distance(movePath[0], movePath[movePath.Count - 1]);
+            float currentDistanceToTarget = Vector3.Distance(transform.position, movePath[movePath.Count - 1]);
+
+            if (currentDistanceToTarget <= totalDistance / 2f)
+            {
+                BuildingManager.Instance.PlaceTutorialPointer(transform);
+                speed = 0;
+                PassengerManager.Instance.SetTempPassengerMoveSpeed(0);
+            }
+         
         }
         base.MoveAlongPath();
     }

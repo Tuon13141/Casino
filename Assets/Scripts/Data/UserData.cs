@@ -18,10 +18,13 @@ namespace Data
         public int level;
         public int numberOfStaff;
         public float passengerCooldown;
+        public float bonusIncome;
+        public float bonusSpeed;
 
         public List<BuildedBuilding> buildedBuildingList = new List<BuildedBuilding>();   
         public Dictionary<int, int> buildedBuildingDict = new Dictionary<int, int>();
 
+        public List<string> upgradeListIds = new List<string>();
         public bool Init()
         {
             if (alreadyLoad)
@@ -29,13 +32,16 @@ namespace Data
                 ConvertListToDictionary();
                 return false;
             }
+            money = 15;
             currentExp = 0;
             startExp = 0;
             nextExp = 10;
             level = 1;
+            bonusIncome = 1;
+            bonusSpeed = 1;
             alreadyLoad = true;
             numberOfStaff = 1;
-            passengerCooldown = 5f;
+            passengerCooldown = 10f;
             needTutorial = true;
             return true;
         }

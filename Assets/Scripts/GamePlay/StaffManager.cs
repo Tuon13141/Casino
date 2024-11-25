@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StaffManager : Singleton<StaffManager>
 {
-    int staffCount = 0;
+    public int staffCount = 0;
     [SerializeField] Transform staffParent;
     [SerializeField] StaffAgent staffPref;        
     public List<Transform> startPoints = new List<Transform>();
@@ -37,24 +37,28 @@ public class StaffManager : Singleton<StaffManager>
 
     public void OnUpdate()
     {
-        for (int i = staffAgents.Count - 1; i >= 0; i--)
+        for (int i = 0; i < staffAgents.Count; i++)
         {
             StaffAgent agent = staffAgents[i];
-            if (agent.StaffState != StaffState.Free) continue;
-
-            switch (agent.StaffType)
+            if (agent.StaffState == StaffState.Free)
             {
-                case StaffType.AllPosition:
-                    BuildingObject buildingObject = BuildingManager.Instance.GetNeedStaffHelpBuilding();
-                   
-                    if (buildingObject == null) break;
-                    agent.GetTask(buildingObject);
-                 
-                    break;
+                //Debug.Log(i);
+                switch (agent.StaffType)
+                {
+                    case StaffType.AllPosition:
+                        BuildingObject buildingObject = BuildingManager.Instance.GetNeedStaffHelpBuilding();
+                        //Debug.Log(buildingObject.gameObject.name);
+                        if (buildingObject == null) break;
+                        agent.GetTask(buildingObject);
+
+                        break;
+                }
             }
+
+            
         }
 
-        BuildingManager.Instance.FirstLoad = false;
+        if(!BuildingManager.Instance.NeedTutorial) BuildingManager.Instance.FirstLoad = false;
     }
 
     public void AddStaff()
@@ -68,5 +72,7 @@ public class StaffManager : Singleton<StaffManager>
 
         agent.StartPosition = startPoints[startPointIndex];
         agent.OnStart();
+
+        staffCount++;
     }
 }

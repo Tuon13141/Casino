@@ -9,16 +9,33 @@ public class BuildingManager : Singleton<BuildingManager>
 
     [SerializeField] List<BuildingObject> tutorialBuildingObjects = new List<BuildingObject>();
 
-    public bool FirstLoad { get; set; } = true;
+    bool firstLoad = true;
+    public bool FirstLoad { get { return firstLoad; }
+                            set
+                            {
+                                firstLoad = value;
+                                foreach (BuildingObject buildingObject in receptionistAreas)
+                                {
+                                    if(buildingObject.IsBuilded)
+                                        buildingObject.FirstLoad = false;
+                                }
+                                foreach (BuildingObject buildingObject in buildingObjects)
+                                {
+                                    if (buildingObject.IsBuilded)
+                                        buildingObject.FirstLoad = false;
+                                }
+                            }
+    }
     public bool NeedTutorial = false;
-    [HideInInspector] public bool NeedTutorialPointer = false;
+    public bool NeedTutorialPointer { get; set; } = false;
+    public bool nextTutorial = false;
     [SerializeField] GameObject pointer;
     private GameObject currentPointer;
 
     [SerializeField] List<BuildingObject> receptionistAreas = new List<BuildingObject>();
 
     [SerializeField] List<GameObject> cameraEqualScaleObjects = new List<GameObject>();
-
+   
 
     private void Start()
     {
@@ -47,12 +64,9 @@ public class BuildingManager : Singleton<BuildingManager>
 
     IEnumerator PlayTutorial()
     {
+        GameUI.Instance.Get<UIInGame>().ShowUpdateButton(false);
         for (int i = 0; i < tutorialBuildingObjects.Count; i++)
         {
-            if(i == 1)
-            {
-                NeedTutorialPointer = true;
-            }
             BuildingObject buildingObject = tutorialBuildingObjects[i];
             buildingObject.OnStart();
 
@@ -61,12 +75,36 @@ public class BuildingManager : Singleton<BuildingManager>
                 buildingObject.UpdateIcon.PlayPulseEffect(Vector3.one, new Vector3(1.5f, 1.5f, 1.5f), .5f, Mathf.Infinity);
             }
 
+            
+
             yield return new WaitUntil(() => buildingObject.IsBuilded);
+
+            if (i == 0)
+            {
+                tutorialBuildingObjects[0].CheckUpdate();
+                GameUI.Instance.Get<UITutorial>().Show();
+                GameUI.Instance.Get<UITutorial>().PlayStageOne();
+                if (buildingObject.UpdateIcon.isActiveAndEnabled)
+                {
+                    buildingObject.UpdateIcon.PlayPulseEffect(Vector3.one, new Vector3(1.5f, 1.5f, 1.5f), .5f, Mathf.Infinity);
+                }
+            }
+            yield return new WaitUntil(() => nextTutorial);
+            if(i == 0)
+            {
+                GameUI.Instance.Get<UITutorial>().Hide();
+            }
         }
 
+        firstLoad = false;
         PassengerManager.Instance.canSpawnPassenger = true;
         GameManager.Instance.UserData.needTutorial = false ;
+        NeedTutorial = false;
+        NeedTutorialPointer = true;
         Game.Update.AddTask(AdjustObjectHeight);
+        GameUI.Instance.Get<UIInGame>().ShowUpdateButton(true);
+
+        
     }
     
     public void AddBuildingObject(BuildingObject buildingObject)
@@ -88,7 +126,7 @@ public class BuildingManager : Singleton<BuildingManager>
 
     public BuildingObject GetNeedStaffHelpBuilding()
     {
-        if (FirstLoad)
+        if (firstLoad)
         {
             foreach (BuildingObject buildingObject in receptionistAreas)
             {
@@ -104,15 +142,16 @@ public class BuildingManager : Singleton<BuildingManager>
                     return buildingObject;
                 }
             }
-
+          
         }
         else
         {
             foreach (BuildingObject buildingObject in buildingObjects)
             {
-                Debug.Log(buildingObject.CheckNeedStaffHelp());
+                Debug.Log(buildingObject.gameObject.name);
                 if (buildingObject.needStaffHelp && buildingObject.GetAvailableSeatForStaff() != null && buildingObject.IsBuilded && buildingObject.CheckNeedStaffHelp())
                 {
+                    Debug.Log("Found : " + buildingObject.gameObject.name);
                     return buildingObject;
                 }
             }
@@ -204,11 +243,26 @@ public class BuildingManager : Singleton<BuildingManager>
         currentPointer = Instantiate(pointer, transform);
         currentPointer.transform.localPosition = Vector3.zero;
         NeedTutorialPointer = false;
+        PassengerManager.Instance.canSpawnPassenger = false;
+        GameUI.Instance.Get<UITutorial>().Show();
+        GameUI.Instance.Get<UITutorial>().PlayStageTwo();
     }
 
     public void DestroyTutorialPointer()
     {
         if(currentPointer == null) return;  
         Destroy(currentPointer);
+        PassengerManager.Instance.ResetSpeed();
+        PassengerManager.Instance.canSpawnPassenger = true;
+        GameUI.Instance.Get<UITutorial>().Hide();
+
+        foreach (BuildingObject b in buildingObjects)
+        {
+            if (tutorialBuildingObjects.Contains(b))
+            {
+                continue;
+            }
+            b.OnStart();
+        }
     }
 }

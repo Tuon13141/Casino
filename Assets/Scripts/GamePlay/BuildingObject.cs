@@ -23,6 +23,8 @@ public class BuildingObject : MonoBehaviour
     [SerializeField] List<GameObject> destroyAfterBuildObjects = new List<GameObject>();
 
     [SerializeField] GameObject lockObject;
+
+    public bool FirstLoad { get; set; } = true;
     public void OnStart()
     {
         SetUp();
@@ -31,7 +33,7 @@ public class BuildingObject : MonoBehaviour
     void SetUp()
     {
         updateIcon.gameObject.SetActive(false);
-        moneyEarnedPerPassenger = GetMoneyEarnedPerPassgenger();
+        GetMoneyEarnedPerPassgenger();
         SetUpUpdateIcon();
 
         int level = GameManager.Instance.CheckBuildedBuiling(ID);
@@ -96,10 +98,9 @@ public class BuildingObject : MonoBehaviour
 
     public void UpdateBuilding()
     {
-
         GameManager.Instance.UpdateBuilding(GetNextUpdateCost(), ID);
         level++;
-
+        GetMoneyEarnedPerPassgenger();
         GameUI.Instance.Get<UIUpdateBuilding>().SetUp(GetNextUpdateCost(), GetNextMoneyEarnedPerPassgenger(), UpdateBuilding, level, transform);
     }
 
@@ -107,7 +108,7 @@ public class BuildingObject : MonoBehaviour
     {
         foreach (WaitLineInBuilding wait in waitLineInBuildings)
         {
-            if (wait.HadFreeSeat())
+            if (wait.HadFreeSeat() && wait.HadStaff())
             {
                 wait.AddPassenger(passengerAgent);
                 return true;
@@ -126,6 +127,18 @@ public class BuildingObject : MonoBehaviour
         }
 
         if(tmp.Count > 0)
+        {
+            tmp[Random.Range(0, tmp.Count)].AddPassenger(passengerAgent);
+            return true;
+        }
+        foreach (WaitLineInBuilding wait in waitLineInBuildings)
+        {
+            if (wait.HadFreeSeat())
+            {
+                tmp.Add(wait);
+            }
+        }
+        if (tmp.Count > 0)
         {
             tmp[Random.Range(0, tmp.Count)].AddPassenger(passengerAgent);
             return true;
@@ -154,6 +167,23 @@ public class BuildingObject : MonoBehaviour
             SeatInBuilding seat = seats[i];
             if (seat.isOpen && !seat.isSeatedIn && seat.SeatType == SeatType.Staff)
             {
+                foreach(SeatInBuilding seatInBuilding in seat.GetHelpedSeats())
+                {
+                    if (seatInBuilding.WaitLineInBuilding.HadPassenger())
+                    {
+                        return seat;
+                    }
+                }
+            }
+        }
+        if(!FirstLoad && IsBuilded) return null;
+        //firstLoad = false;
+        for (int i = 0; i < seats.Count; i++)
+        {
+            SeatInBuilding seat = seats[i];
+            if (seat.isOpen && !seat.isSeatedIn && seat.SeatType == SeatType.Staff)
+            {
+                //Debug.Log(1);
                 return seat;
             }
         }
@@ -166,11 +196,12 @@ public class BuildingObject : MonoBehaviour
     {
         float money = buildingSO.baseMoneyEarned;
 
-        //for (int i = 0; i < level; i++)
-        //{
-        //    money *= (1 + buildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
-        //}
+        for (int i = 1; i < level; i++)
+        {
+            money *= (1 + buildingSO.baseMoneyEarnedIncreasePercentPerLevel / 100);
+        }
 
+        moneyEarnedPerPassenger = money;
         return money;
     }
     public float GetNextMoneyEarnedPerPassgenger()
@@ -185,7 +216,7 @@ public class BuildingObject : MonoBehaviour
     {
         float money = buildingSO.baseUpdateCost;
 
-        for (int i = 0; i < level; i++)
+        for (int i = 1; i < level; i++)
         {
             money *= (1 + buildingSO.baseMoneyUpdateIncreasePercentPerLevel / 100);
         }
@@ -200,6 +231,7 @@ public class BuildingObject : MonoBehaviour
     {
         updateIcon.gameObject.SetActive(false);
         CheckUnlockLevel();
+    
         UserData userData = GameManager.Instance.UserData;
         if (userData.level >= buildingSO.unlockedLevel)
         {
@@ -231,6 +263,7 @@ public class BuildingObject : MonoBehaviour
                 if (!seat.CheckStillHavePassengerInWait())
                 {
                     //Debug.Log(gameObject.name);
+                    //Debug.Log(seat.gameObject.name);
                     seat.Agent.OnFinishTask();
                 }
                 
@@ -243,9 +276,12 @@ public class BuildingObject : MonoBehaviour
     {
         foreach (SeatInBuilding seat in seats)
         {
-            if(seat.SeatType == SeatType.Passenger && seat.WaitLineInBuilding.HadPassenger())
+            if(seat.SeatType == SeatType.Staff && seat.isOpen && !seat.isSeatedIn)
             {
-                return true;
+                if (seat.CheckStillHavePassengerInWait())
+                {
+                    return true;
+                }
             }
         }
 

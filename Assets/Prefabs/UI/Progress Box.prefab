@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fill: {fileID: 1557476813521841466}
-  worldScale: {x: 0.01, y: 0.01, z: 0.01}
+  worldScale: {x: 1, y: 1, z: 1}
 --- !u!223 &-6030657328653014340
 Canvas:
   m_ObjectHideFlags: 0

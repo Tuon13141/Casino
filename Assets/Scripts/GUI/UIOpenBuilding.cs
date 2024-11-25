@@ -18,12 +18,14 @@ public class UIOpenBuilding : UIElement
 
     [SerializeField] TextMeshProUGUI costText;
     [SerializeField] TextMeshProUGUI earnText;
+    [SerializeField] Image img;
 
     Action onOkButton;
-    public void SetUp(float cost, float earn, Action onOkButton)
+    public void SetUp(float cost, float earn, Action onOkButton, Sprite sprite)
     {
         costText.text = cost.ToString();
         earnText.text = earn.ToString();
+        img.sprite = sprite;
        
         this.onOkButton = onOkButton;
     }

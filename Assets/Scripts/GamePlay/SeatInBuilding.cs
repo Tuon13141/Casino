@@ -29,14 +29,15 @@ public class SeatInBuilding : MonoBehaviour
         return transform.position;
     }
 
-    public void OnUse()
+    public void OnUse(Agent agent)
     {
+        this.Agent = agent;
         isOpen = false;
     }
 
-    public void OnSeated(Agent agent)
+    public void OnSeated()
     {
-        this.Agent = agent;
+
         switch (SeatType)
         {
             case SeatType.Passenger:
@@ -65,6 +66,7 @@ public class SeatInBuilding : MonoBehaviour
 
     public void SetStaffSeatHadStaffHelp(bool b)
     {
+        Agent = null;
         foreach (SeatInBuilding seatInBuilding in HelpedSeats)
         {
             seatInBuilding.SetHadStaffHelp(b);
@@ -81,6 +83,8 @@ public class SeatInBuilding : MonoBehaviour
 
             currentProgressUI.SetUp(transform);
             currentProgressUI.SetActive(false);
+
+            BuildingManager.Instance.AddToCameraEqualScaleObject(currentProgressUI.gameObject);
         }
         else
         {
@@ -142,13 +146,21 @@ public class SeatInBuilding : MonoBehaviour
     
     public bool CheckStillHavePassengerInWait()
     {
-        if(Agent ==  null) return true;
+        if (Agent == null)
+        {
+            //Debug.Log("Null " + buildingObject.gameObject.name + " " + gameObject.name);    
+            return true;
+        }
         foreach(SeatInBuilding seat in HelpedSeats)
         {
             if(seat.WaitLineInBuilding.HadPassenger()) return true;
         }
 
         return false;
+    }
+    public List<SeatInBuilding> GetHelpedSeats()
+    {
+        return HelpedSeats;
     }
 }
 

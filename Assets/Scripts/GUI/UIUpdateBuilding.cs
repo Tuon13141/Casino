@@ -56,6 +56,11 @@ public class UIUpdateBuilding : UIElement
     {
         onOkButton?.Invoke();
         onHideAction?.Invoke();
+
+        if (BuildingManager.Instance.NeedTutorial)
+        {
+            BuildingManager.Instance.nextTutorial = true;
+        }
     }
 
     public void BackButton()

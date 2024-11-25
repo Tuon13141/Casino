@@ -1515,7 +1515,7 @@ Transform:
   - {fileID: 5419390039257697896}
   - {fileID: 6262016591816384993}
   - {fileID: 4463717980208612059}
-  - {fileID: 6619061208092590116}
+  - {fileID: 6051075903782562169}
   - {fileID: 9216218656780867139}
   - {fileID: 2577371213957061501}
   m_Father: {fileID: 0}
@@ -1538,7 +1538,7 @@ MonoBehaviour:
   buildingSO: {fileID: 11400000, guid: 254376eee5a1fb54f9189e3ec001ed28, type: 2}
   IsBuilded: 0
   moneyEarnedPerPassenger: 0
-  updateIcon: {fileID: 4118902536821360282}
+  updateIcon: {fileID: 3534011141556449223}
   destroyAfterBuildObjects:
   - {fileID: 4250727944937961075}
   - {fileID: 8493329275936788130}
@@ -2038,7 +2038,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3996159005934858553}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &4914334490600217479
+--- !u!1001 &5481203241052205786
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2051,25 +2051,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Update Icon
       objectReference: {fileID: 0}
-    - target: {fileID: 2134913316951412744, guid: f023140f2745a6b4281f2e3382952299,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.5
+      value: -13.25
       objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.66
+      value: 9.91
       objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.25
+      value: 11.5
       objectReference: {fileID: 0}
     - target: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
         type: 3}
@@ -2111,11 +2106,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f023140f2745a6b4281f2e3382952299, type: 3}
---- !u!114 &4118902536821360282 stripped
+--- !u!114 &3534011141556449223 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9014642013636418845, guid: f023140f2745a6b4281f2e3382952299,
     type: 3}
-  m_PrefabInstance: {fileID: 4914334490600217479}
+  m_PrefabInstance: {fileID: 5481203241052205786}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -2123,11 +2118,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bcb419537b83d499a6e715e9c88e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &6619061208092590116 stripped
+--- !u!4 &6051075903782562169 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2299254975609461667, guid: f023140f2745a6b4281f2e3382952299,
     type: 3}
-  m_PrefabInstance: {fileID: 4914334490600217479}
+  m_PrefabInstance: {fileID: 5481203241052205786}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6283331655062523809
 PrefabInstance:

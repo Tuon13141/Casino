@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 1373860450318182755}
   - component: {fileID: 2024587395854746787}
   m_Layer: 3
-  m_Name: Seat
+  m_Name: SeatP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 8133924110658232373}
   - component: {fileID: 8924660129230783006}
   m_Layer: 3
-  m_Name: Seat
+  m_Name: SeatP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 414105036305676238}
   - component: {fileID: 6179174898753318050}
   m_Layer: 3
-  m_Name: Seat
+  m_Name: SeatP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 7351269364262033767}
   - component: {fileID: 5873490328293745787}
   m_Layer: 3
-  m_Name: Seat
+  m_Name: SeatP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

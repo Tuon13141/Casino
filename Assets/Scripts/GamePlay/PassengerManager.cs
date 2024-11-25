@@ -8,11 +8,12 @@ public class PassengerManager : Singleton<PassengerManager>
     public bool canSpawnPassenger = false;
     [SerializeField] PassengerAgent passengerPref;
     [SerializeField] List<Transform> startPoints = new List<Transform>();
+    [SerializeField] List<PassengerAgent> passengerAgents = new List<PassengerAgent>();
     public Transform endPoint;
     [SerializeField] Transform parent;
 
     float timer = 0;
-    public float moveSpeed = 3;
+    public float moveSpeed = 10;
     private void Start()
     {
         passengerCooldown = GameManager.Instance.UserData.passengerCooldown;
@@ -52,5 +53,18 @@ public class PassengerManager : Singleton<PassengerManager>
             buildingObjects.Add(buildingObject);
         }
         passengerAgent.GetTask(receptionistArea, buildingObjects);
+
+        passengerAgents.Add(passengerAgent);
     }
+
+    public void SetNewPassengerCooldown()
+    {
+        passengerCooldown = GameManager.Instance.UserData.passengerCooldown;
+    }
+
+    public void RemovePassengerAgent(PassengerAgent passengerAgent) { passengerAgents.Remove(passengerAgent);}
+
+    public void SetTempPassengerMoveSpeed(float speed) { foreach(PassengerAgent passengerAgent in passengerAgents) { passengerAgent.speed = speed; } }
+
+    public void ResetSpeed() { foreach (PassengerAgent passengerAgent in passengerAgents) { passengerAgent.speed = moveSpeed; } }
 }

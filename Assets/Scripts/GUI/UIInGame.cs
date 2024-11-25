@@ -57,6 +57,11 @@ public class UIInGame : UIElement
 
     public void UpdateButton()
     {
+        GameUI.Instance.Get<UIUpgrade>().Show();
+    }
 
+    public void ShowUpdateButton(bool b)
+    {
+        updateButton.SetActive(b);
     }
 }

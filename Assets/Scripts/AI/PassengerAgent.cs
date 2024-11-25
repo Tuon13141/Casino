@@ -14,6 +14,7 @@ public class PassengerAgent : Agent
     public override void OnStart()
     {
         base.OnStart();
+        speed = PassengerManager.Instance.moveSpeed;
     }
 
     public void GetTask(BuildingObject receptionistArea, List<BuildingObject> buildingObjects)
@@ -25,8 +26,7 @@ public class PassengerAgent : Agent
 
     public void GoToSeatInBuilding(SeatInBuilding seat)
     {
-        this.seat = seat;
-        seat.OnUse();   
+        this.seat = seat; 
         SetDestination(seat.transform);
         //Game.Update.AddTask(OnFinishTask);
     }
@@ -105,8 +105,12 @@ public class PassengerAgent : Agent
         }
         //SetDestination();
         buildingIndex++;
-        if (seat == null) return; 
-        seat.OnUse();
+        if (seat == null)
+        {
+            //ChangeState(PassengerState.OnGoingOut);
+            return;
+        }
+        seat.OnUse(this);
       
         //Game.Update.AddTask(OnFinishTask);
 
@@ -124,6 +128,7 @@ public class PassengerAgent : Agent
         if (hadReachTarget)
         {
             Game.Update.RemoveTask(WaitForOutOfMap);
+            PassengerManager.Instance.RemovePassengerAgent(this);
             Destroy(gameObject);
         }
 

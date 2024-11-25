@@ -113,13 +113,37 @@ public class GameManager : Singleton<GameManager>
 
     public void AddMoney(float money)
     {
+        if (money > 0) money *= UserData.bonusIncome;
         UserData.money += money;
         BuildingManager.Instance.CheckBuildingUpdate();
         GameUI.Instance.Get<UIInGame>().SetCoinText(UserData.money);
         GameUI.Instance.Get<UIUpdateBuilding>().CheckMoneyToUpdate();
+        GameUI.Instance.Get<UIUpgrade>().CheckMoney();
+
     }
 
-
+    public void Upgrade(UpgradeSO upgrade)
+    {
+        AddMoney(-upgrade.price);
+        UserData.upgradeListIds.Add(upgrade.id);
+        switch (upgrade.upgradeType)
+        {
+            case UpgradeType.Staff:
+                UserData.numberOfStaff += Mathf.RoundToInt(upgrade.amount);
+                StaffManager.Instance.AddStaff();
+                break;
+            case UpgradeType.Passenger:
+                UserData.passengerCooldown /= upgrade.amount * 2;
+                PassengerManager.Instance.SetNewPassengerCooldown();
+                break;
+            case UpgradeType.Speed:
+                UserData.bonusSpeed += upgrade.amount;
+                break;
+            case UpgradeType.Money:
+                UserData.bonusIncome += upgrade.amount;
+                break;
+        }
+    }
     public void BakeNavMesh()
     {
         navMeshSurface.BuildNavMesh();

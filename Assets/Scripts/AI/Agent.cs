@@ -58,7 +58,7 @@ public class Agent : MonoBehaviour
 
         Vector3 targetPosition = movePath[currentIndex];
         Vector3 direction = (targetPosition - new Vector3(transform.position.x, targetPosition.y, transform.position.z)).normalized;
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * GameManager.Instance.UserData.bonusSpeed * Time.deltaTime);
 
         if (direction != Vector3.zero)
         {
@@ -78,7 +78,7 @@ public class Agent : MonoBehaviour
         this.destination = destination;
         this.isWait = isWait;
         ResetMovement();
-        if(seat != null) seat.OnUse();
+        if(seat != null) seat.OnUse(this);
 
         if (NavMesh.CalculatePath(transform.position, destination.position, NavMesh.AllAreas, navMeshPath))
         {
@@ -105,7 +105,7 @@ public class Agent : MonoBehaviour
     protected virtual void OnDestinationReached()
     {
         if(seat == null) return;
-        seat.OnSeated(this);
+        seat.OnSeated();
 
         angle = seat.agentAngle;
         Game.Update.AddTask(RotateAgent);
@@ -150,6 +150,7 @@ public class Agent : MonoBehaviour
     private void OnDestroy()
     {
         Game.Update.RemoveTask(RotateAgent);
+        Game.Update.RemoveTask(OnUpdate);
     }
 }
 

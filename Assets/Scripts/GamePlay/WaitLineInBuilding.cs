@@ -11,6 +11,8 @@ public class WaitLineInBuilding : MonoBehaviour
     [SerializeField] List<Transform> waitPositions = new List<Transform>();
     [SerializeField] Queue<PassengerAgent> passengerAgents = new();
     int passengerCount = 0;
+
+    bool firstLoad = true;
     public void OnStart()
     {
         seat.WaitLineInBuilding = this;
@@ -87,12 +89,22 @@ public class WaitLineInBuilding : MonoBehaviour
         Vector3 direction = (targetPosition - new Vector3(passengerAgent.transform.position.x, targetPosition.y, passengerAgent.transform.position.z)).normalized;
         passengerAgent.SetAngle(direction);
         passengerAgent.SetDestination(waitPositions[i], true);
+
+        firstLoad = false;
     }
     
     public bool HadPassenger()
     {
-        if (!seat.isOpen) return true; 
-        if(passengerAgents.Count == 0) return false;
+        if (!seat.isOpen) return true;
+        if (passengerAgents.Count == 0) return false;
         return true;
+
+    }
+
+    public bool NeedStaffHelp()
+    {
+        if (!seat.isOpen) return true;
+
+        return false;
     }
 }
