@@ -9,7 +9,7 @@ public class BuildingManager : Singleton<BuildingManager>
 
     [SerializeField] List<BuildingObject> tutorialBuildingObjects = new List<BuildingObject>();
 
-    bool firstLoad = true;
+    public bool firstLoad = true;
     public bool FirstLoad { get { return firstLoad; }
                             set
                             {
@@ -102,7 +102,7 @@ public class BuildingManager : Singleton<BuildingManager>
         NeedTutorial = false;
         NeedTutorialPointer = true;
         Game.Update.AddTask(AdjustObjectHeight);
-        GameUI.Instance.Get<UIInGame>().ShowUpdateButton(true);
+    
 
         
     }
@@ -255,7 +255,7 @@ public class BuildingManager : Singleton<BuildingManager>
         PassengerManager.Instance.ResetSpeed();
         PassengerManager.Instance.canSpawnPassenger = true;
         GameUI.Instance.Get<UITutorial>().Hide();
-
+        GameUI.Instance.Get<UIInGame>().ShowUpdateButton(true);
         foreach (BuildingObject b in buildingObjects)
         {
             if (tutorialBuildingObjects.Contains(b))

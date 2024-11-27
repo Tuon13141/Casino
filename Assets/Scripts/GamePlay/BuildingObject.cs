@@ -94,6 +94,7 @@ public class BuildingObject : MonoBehaviour
         SpawnBuildingPref();
 
         GameManager.Instance.AddBuildedBuilding(buildingSO.buildCost, ID);
+        if(!BuildingManager.Instance.firstLoad) FirstLoad = false;
     }
 
     public void UpdateBuilding()
