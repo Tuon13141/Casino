@@ -13,6 +13,7 @@ public class UIInGame : UIElement
 
     public override bool UseBehindPanel => false;
 
+    [SerializeField] Text expText;
     [SerializeField] Text levelText;
     [SerializeField] Text moneyText;
 
@@ -27,8 +28,8 @@ public class UIInGame : UIElement
         UserData userData = GameManager.Instance.UserData;
         moneyText.text = userData.money.ToString();
         float progress = (userData.currentExp - userData.startExp) / (userData.nextExp - userData.startExp);
-        levelText.text = "Lv" + userData.level.ToString() + " : " + userData.currentExp.ToString("N0") + "/" + userData.nextExp.ToString("N0");
-
+        expText.text = userData.currentExp.ToString("N0") + "/" + userData.nextExp.ToString("N0");
+        levelText.text = "Lv" + userData.level.ToString();
         levelSlider.fillAmount = progress;
 
         updateButton.onClick.AddListener(UpdateButton);
@@ -43,8 +44,8 @@ public class UIInGame : UIElement
     public void SetLevelProgress(float currentExp, float totalExp, float startExp, int level)
     {
         float progress = (currentExp - startExp) / (totalExp - startExp);
-        levelText.text = "Lv" + level.ToString() + " : " + currentExp.ToString("N0") + "/" + totalExp.ToString("N0");
-
+        expText.text =currentExp.ToString("N0") + "/" + totalExp.ToString("N0");
+        levelText.text = "Lv" + level.ToString();
         levelSlider.fillAmount = progress;
 
         PlayScaleAnimation(moneyObject);

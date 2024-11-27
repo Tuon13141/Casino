@@ -1,5 +1,7 @@
 ﻿using Data;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BuildingObject : MonoBehaviour
@@ -23,6 +25,8 @@ public class BuildingObject : MonoBehaviour
     [SerializeField] List<GameObject> destroyAfterBuildObjects = new List<GameObject>();
 
     [SerializeField] GameObject lockObject;
+    [SerializeField] GameObject priceObject;
+    [SerializeField] TextMeshPro priceText;
 
     public bool FirstLoad { get; set; } = true;
     public void OnStart()
@@ -92,8 +96,11 @@ public class BuildingObject : MonoBehaviour
     public void Build()
     {
         SpawnBuildingPref();
-
         GameManager.Instance.AddBuildedBuilding(buildingSO.buildCost, ID);
+       
+        priceObject.SetActive(false);
+        StartScaleAndZoom(currentBuildingObject.transform, Camera.main);
+        
     }
 
     public void UpdateBuilding()
@@ -241,6 +248,8 @@ public class BuildingObject : MonoBehaviour
                 {
                     SetUpUpdateIcon();
                     updateIcon.gameObject.SetActive(true);
+                    priceObject.SetActive(true);
+                    priceText.text = buildingSO.buildCost.ToString();
                 }
             }
             else
@@ -315,4 +324,65 @@ public class BuildingObject : MonoBehaviour
         return false;
     }
     #endregion
+
+    public void StartScaleAndZoom(Transform targetObject, Camera mainCamera)
+    {
+        StartCoroutine(AnimateScaleAndZoom(targetObject, mainCamera));
+    }
+
+    private IEnumerator AnimateScaleAndZoom(Transform targetObject, Camera mainCamera)
+    {
+        float animationDuration = 4f;
+        float zoomAmount = 60f;
+        Vector3 originalScale = targetObject.localScale;
+       
+        float originalFieldOfView = mainCamera.fieldOfView;
+        Vector3 originalCameraPosition = mainCamera.transform.position;
+
+        Vector3 targetPosition = new Vector3(targetObject.position.x, targetObject.position.y + 40, targetObject.position.z + 20);
+        float elapsedTime = 0f;
+        currentBuildingObject.transform.localScale = Vector3.zero;
+        // Zoom in
+        while (elapsedTime < animationDuration / 4)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / (animationDuration / 4);
+
+            mainCamera.transform.position = Vector3.Lerp(originalCameraPosition, targetPosition, t);
+            mainCamera.fieldOfView = Mathf.Lerp(originalFieldOfView, zoomAmount, t);
+
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        // Scale lại
+        while (elapsedTime < animationDuration / 2)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / (animationDuration / 2);
+
+            targetObject.localScale = Vector3.Lerp(Vector3.zero, originalScale * 1f, t);
+
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        // Zoom out
+        while (elapsedTime < animationDuration / 4)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / (animationDuration / 4);
+
+            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, originalCameraPosition, t);
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, originalFieldOfView, t);
+
+            yield return null;
+        }
+
+        targetObject.localScale = originalScale;
+        mainCamera.transform.position = originalCameraPosition;
+        mainCamera.fieldOfView = originalFieldOfView;
+    }
 }

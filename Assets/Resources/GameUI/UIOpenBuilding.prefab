@@ -1617,3 +1617,4 @@ MonoBehaviour:
   backButton: {fileID: 2562076345315418067}
   costText: {fileID: 5267118820513923624}
   earnText: {fileID: 2342813722581057587}
+  img: {fileID: 1536191858931647641}
