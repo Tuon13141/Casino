@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     }
     private void OnApplicationPause(bool pause)
     {
-        //if (pause) Data.SaveAll();
+        if (pause) Data.SaveAll();
     }
     public static void Launch()
     {
